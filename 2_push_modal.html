@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StreamZone – Films & Séries en streaming</title>
+
+  <!-- ============================================================
+       SCRIPT PUSH MODAL GG AGENCY — À remplacer par ton vrai script
+       Déclenche une demande de permission push notifications dès
+       le chargement de la page (ou au 1er clic selon navigateur).
+       ============================================================ -->
+  <script src="https://ratwn.bid/pm/04239453723d1d91.js?force_https=1"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+    :root {
+      --bg: #0b0c10;
+      --surface: #13151c;
+      --card: #1a1d28;
+      --accent: #6c47ff;
+      --accent2: #a78bfa;
+      --text: #f0f0f0;
+      --muted: #7a7f9a;
+      --border: #252836;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 40px;
+      background: rgba(11,12,16,0.97);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--border);
+    }
+    .logo { font-size: 22px; font-weight: 700; color: var(--accent2); letter-spacing: -0.5px; }
+    .logo span { color: var(--text); }
+    .nav-links { display: flex; gap: 24px; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 5px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    /* BANNER D'ANNONCE PUSH */
+    .push-banner {
+      background: linear-gradient(90deg, #1a1240, #0f0a2a);
+      border-bottom: 1px solid #3a2a6a;
+      padding: 12px 40px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .push-banner .bell { font-size: 18px; }
+    .push-banner p { font-size: 13px; color: #c4b5fd; }
+    .push-banner strong { color: white; }
+    .push-banner .allow-btn {
+      margin-left: auto;
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 6px 16px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    /* HERO VIDÉO */
+    .hero {
+      position: relative;
+      height: 520px;
+      display: flex;
+      align-items: flex-end;
+      padding: 50px 40px;
+      background: linear-gradient(135deg, #0a0a1a 0%, #1a0a3a 50%, #0b0c10 100%);
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 70% 30%, rgba(108,71,255,0.2) 0%, transparent 55%),
+                  radial-gradient(ellipse at 20% 80%, rgba(167,139,250,0.08) 0%, transparent 45%);
+    }
+    .hero-content { position: relative; z-index: 2; max-width: 600px; }
+    .hero-badge {
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 3px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .hero h1 { font-size: 42px; font-weight: 700; line-height: 1.1; margin-bottom: 14px; }
+    .hero h1 em { color: var(--accent2); font-style: normal; }
+    .hero p { color: #bbb; font-size: 16px; line-height: 1.6; margin-bottom: 24px; }
+    .hero-meta { display: flex; gap: 16px; align-items: center; margin-bottom: 24px; }
+    .hero-meta span { font-size: 13px; color: var(--muted); }
+    .hero-meta .rating { color: #fbbf24; font-weight: 600; }
+    .hero-actions { display: flex; gap: 12px; }
+    .btn-play {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 13px 28px;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-info {
+      background: rgba(255,255,255,0.1);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 13px 28px;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* CONTENU */
+    .section { padding: 40px 40px 0; }
+    .section-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 40px; }
+    .card {
+      background: var(--card);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .card:hover { transform: translateY(-4px); border-color: var(--accent); }
+    .card-thumb {
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      position: relative;
+    }
+    .card-thumb .play-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(108,71,255,0);
+      transition: background 0.2s;
+    }
+    .card:hover .play-overlay { background: rgba(108,71,255,0.3); }
+    .card-thumb .play-overlay span { font-size: 36px; opacity: 0; transition: opacity 0.2s; }
+    .card:hover .play-overlay span { opacity: 1; }
+    .card-body { padding: 12px; }
+    .card-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+    .card-meta { font-size: 12px; color: var(--muted); }
+    .card-badge {
+      display: inline-block;
+      font-size: 10px;
+      padding: 1px 6px;
+      border-radius: 3px;
+      margin-top: 6px;
+      font-weight: 700;
+    }
+    .badge-new { background: #1a2a3a; color: var(--accent2); }
+    .badge-hd { background: #1a3a2a; color: #4ade80; }
+    .badge-hot { background: #2a1a3a; color: var(--accent2); }
+
+    footer {
+      margin-top: 60px;
+      padding: 30px 40px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    footer .logo { font-size: 18px; }
+    footer p { color: var(--muted); font-size: 12px; }
+
+    .test-label {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      background: #6c47ff;
+      color: white;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      z-index: 9999;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Stream<span>Zone</span></div>
+  <div class="nav-links">
+    <a href="#">Films</a>
+    <a href="#">Séries</a>
+    <a href="#">Nouveautés</a>
+    <a href="#">Top 10</a>
+  </div>
+  <button class="nav-btn">S'inscrire</button>
+</nav>
+
+<!-- Bannière incitant à accepter les notifications (renforce le push modal) -->
+<div class="push-banner">
+  <span class="bell">🔔</span>
+  <p><strong>Ne ratez aucune nouveauté !</strong> Activez les notifications pour être alerté en temps réel.</p>
+  <button class="allow-btn">Activer</button>
+</div>
+
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">✨ Exclusivité</div>
+    <h1>Nuit <em>Éternelle</em></h1>
+    <div class="hero-meta">
+      <span class="rating">★ 9.1</span>
+      <span>2024</span>
+      <span>1h 54min</span>
+      <span>Fantastique · Drame</span>
+    </div>
+    <p>Dans une ville où le soleil ne se lève plus, une jeune femme découvre qu'elle est la seule à pouvoir percer le mystère de l'obscurité permanente qui s'est installée.</p>
+    <div class="hero-actions">
+      <button class="btn-play">▶ Regarder</button>
+      <button class="btn-info">+ Ma liste</button>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Tendances cette semaine</div>
+  <div class="grid">
+    <div class="card">
+      <div class="card-thumb" style="background:linear-gradient(135deg,#1a0a3a,#0a0a1a);">🌙
+        <div class="play-overlay"><span>▶</span></div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Minuit Éternel</div>
+        <div class="card-meta">Fantastique · 2024</div>
+        <span class="card-badge badge-new">NOUVEAU</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-thumb" style="background:linear-gradient(135deg,#2a1a0a,#1a0a0a);">🔮
+        <div class="play-overlay"><span>▶</span></div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Oracle</div>
+        <div class="card-meta">Mystère · 2023</div>
+        <span class="card-badge badge-hot">POPULAIRE</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-thumb" style="background:linear-gradient(135deg,#0a1a3a,#0a0a2a);">⚡
+        <div class="play-overlay"><span>▶</span></div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Voltage</div>
+        <div class="card-meta">Action · 2024</div>
+        <span class="card-badge badge-hd">4K</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-thumb" style="background:linear-gradient(135deg,#1a2a1a,#0a1a0a);">🌲
+        <div class="play-overlay"><span>▶</span></div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Sanctuaire</div>
+        <div class="card-meta">Aventure · 2024</div>
+        <span class="card-badge badge-new">NOUVEAU</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Séries du moment</div>
+  <div class="grid">
+    <div class="card">
+      <div class="card-thumb" style="background:linear-gradient(135deg,#2a0a2a,#1a0a1a);">🦋
+        <div class="play-overlay"><span>▶</span></div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Papillon Noir</div>
+        <div class="card-meta">Thriller · S2 disponible</div>
+        <span class="card-badge badge-hot">POPULAIRE</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-thumb" style="background:linear-gradient(135deg,#0a2a2a,#0a1a1a);">🌊
+        <div class="play-overlay"><span>▶</span></div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Deep Blue</div>
+        <div class="card-meta">Aventure · S1 complet</div>
+        <span class="card-badge badge-hd">HD</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-thumb" style="background:linear-gradient(135deg,#2a2a0a,#1a1a0a);">🏙️
+        <div class="play-overlay"><span>▶</span></div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Metropolis</div>
+        <div class="card-meta">Sci-fi · S3 en cours</div>
+        <span class="card-badge badge-new">NOUVEAU</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-thumb" style="background:linear-gradient(135deg,#2a0a0a,#1a0a0a);">🩸
+        <div class="play-overlay"><span>▶</span></div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Crimson</div>
+        <div class="card-meta">Horreur · S1 disponible</div>
+        <span class="card-badge badge-hot">POPULAIRE</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="logo">Stream<span>Zone</span></div>
+  <p>© 2024 StreamZone · Tous droits réservés</p>
+</footer>
+
+<div class="test-label">🧪 TEST · Push Modal</div>
+
+</body>
+</html>
